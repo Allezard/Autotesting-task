@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using ProjectAddressbook.Helpers;
+using ProjectAddressbook.Model;
+
+namespace ProjectAddressbook.Helpers
+{
+    public class TestingContactHelper : BaseHelper
+    {
+        public TestingContactHelper(IWebDriver webDriver)
+            : base(webDriver)
+        {
+        }
+
+        public void AddNewContact()
+        {
+            webDriver.FindElement(By.LinkText("add new")).Click();
+            webDriver.FindElement(By.Name("firstname")).SendKeys("first");
+            webDriver.FindElement(By.Name("middlename")).SendKeys("middle");
+            webDriver.FindElement(By.Name("lastname")).SendKeys("last");
+            webDriver.FindElement(By.Name("nickname")).SendKeys("nick");
+            webDriver.FindElement(By.Name("title")).SendKeys("title");
+            webDriver.FindElement(By.Name("company")).SendKeys("company");
+            webDriver.FindElement(By.Name("address")).SendKeys("address");
+            webDriver.FindElement(By.Name("home")).SendKeys("home");
+            webDriver.FindElement(By.Name("mobile")).SendKeys("mobile");
+            webDriver.FindElement(By.Name("work")).SendKeys("work");
+            webDriver.FindElement(By.Name("fax")).SendKeys("fax");
+            webDriver.FindElement(By.Name("email")).SendKeys("email1");
+            webDriver.FindElement(By.Name("email2")).SendKeys("email2");
+            webDriver.FindElement(By.Name("email3")).SendKeys("email3");
+            webDriver.FindElement(By.Name("homepage")).SendKeys("homepage");
+            // Заполняем личные данные.
+            webDriver.FindElement(By.Name("bday")).Click();
+            new SelectElement(webDriver.FindElement(By.Name("bday"))).SelectByText("16");
+            webDriver.FindElement(By.Name("bmonth")).Click();
+            new SelectElement(webDriver.FindElement(By.Name("bmonth"))).SelectByText("April");
+            webDriver.FindElement(By.Name("byear")).SendKeys("1994");
+            // Указываем день, месяц, год рождения.
+            webDriver.FindElement(By.Name("aday")).Click();
+            new SelectElement(webDriver.FindElement(By.Name("aday"))).SelectByText("20");
+            webDriver.FindElement(By.Name("amonth")).Click();
+            new SelectElement(webDriver.FindElement(By.Name("amonth"))).SelectByText("March");
+            webDriver.FindElement(By.Name("ayear")).SendKeys("2020");
+            // Указываем день, месяц, год годовщины.
+            webDriver.FindElement(By.Name("new_group")).Click();
+            new SelectElement(webDriver.FindElement(By.Name("new_group"))).SelectByText("test");
+            // Выбираем ранее созданную группу.
+            webDriver.FindElement(By.Name("address2")).SendKeys("address2");
+            webDriver.FindElement(By.Name("phone2")).SendKeys("phone2");
+            webDriver.FindElement(By.Name("notes")).SendKeys("notes");
+            webDriver.FindElement(By.Name("submit")).Submit();
+            // Добавляем вторичные личные данные.
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
+
+        }
+    }
+}
