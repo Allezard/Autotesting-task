@@ -9,23 +9,21 @@ using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook.Helpers
 {
-    public class ApplicationManager
+    public class ApplicationManager : BaseHelper
     {
-        protected IWebDriver webDriver;
-        protected StringBuilder verificationErrors;
-
         protected LoginHelper LoginHelper;
         protected NavigationHelper NavigationHelper;
         protected TestingGroupHelper TestingGroupHelper;
         protected TestingContactHelper TestingContactHelper;
 
-        public ApplicationManager()
+        public ApplicationManager(IWebDriver webDriver)
+            : base(webDriver)
         {
+            webDriver = new ChromeDriver();
             LoginHelper = new LoginHelper(webDriver);
             NavigationHelper = new NavigationHelper(webDriver);
             TestingGroupHelper = new TestingGroupHelper(webDriver);
             TestingContactHelper = new TestingContactHelper(webDriver);
-            verificationErrors = new StringBuilder();
         }
 
         public void Stop()
@@ -38,9 +36,7 @@ namespace ProjectAddressbook.Helpers
             {
                 // Ignore errors if unable to close the browser
             }
-            Assert.AreEqual("", verificationErrors.ToString());
         }
-
 
         public LoginHelper Auth
         {

@@ -10,11 +10,11 @@ namespace ProjectAddressbook.Helpers
     public class BaseHelper
     {
         protected IWebDriver webDriver;
+        protected static string urlLogin = "http://localhost/addressbook/";
 
         public BaseHelper(IWebDriver webDriver)
         {
             this.webDriver = webDriver;
         }
-
     }
 }

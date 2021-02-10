@@ -16,7 +16,9 @@ namespace ProjectAddressbook.Helpers
 
         public void GoToURL()
         {
-            webDriver.Navigate().GoToUrl("http://localhost/addressbook/");
+            webDriver.Manage().Cookies.DeleteAllCookies();
+            webDriver.Manage().Window.Maximize();
+            webDriver.Navigate().GoToUrl(BaseHelper.urlLogin);
         }
     }
 }

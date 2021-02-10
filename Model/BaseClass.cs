@@ -18,17 +18,14 @@ namespace ProjectAddressbook.Model
         [SetUp]
         public void SetupChromeDriver()
         {
-            app = new ApplicationManager();
-
-            webDriver = new ChromeDriver();
-            webDriver.Manage().Window.Maximize();
-            webDriver.Manage().Cookies.DeleteAllCookies();
+            app = new ApplicationManager(webDriver);
         }
 
         [TearDown]
         public void TestQuit()
         {
             app.Stop();
+
         }
     }
 }
