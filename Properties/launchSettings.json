@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ProjectAddressbook": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

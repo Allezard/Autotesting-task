@@ -17,11 +17,9 @@ namespace ProjectAddressbook
         [Test]
         public void AddNewContactTest()
         {
-            SetupChromeDriver();
-            NavigationHelper.GoToURL();
-            LoginHelper.Login(new AccountData("admin", "secret"));
-            TestingContactHelper.AddNewContact();
-            TearDownHelper.TestQuit();
+            app.Navigation.GoToURL();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Contacts.AddNewContact();
         }
     }
 }

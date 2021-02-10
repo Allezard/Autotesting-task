@@ -5,7 +5,6 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using ProjectAddressbook.Helpers;
 using ProjectAddressbook.Model;
@@ -17,11 +16,9 @@ namespace ProjectAddressbook
         [Test]
         public void EditSecondGroupTest()
         {
-            SetupChromeDriver();
-            NavigationHelper.GoToURL();
-            LoginHelper.Login(new AccountData("admin", "secret"));
-            TestingGroupHelper.EditSecondGroup(new GroupData("editname", "editheader", "editfooter"), 2);
-            TearDownHelper.TestQuit();
+            app.Navigation.GoToURL();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Groups.EditSecondGroup(new GroupData("editname", "editheader", "editfooter"), 2);
         }
     }
 }

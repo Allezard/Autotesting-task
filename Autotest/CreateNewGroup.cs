@@ -5,7 +5,6 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using ProjectAddressbook.Helpers;
 using ProjectAddressbook.Model;
@@ -17,11 +16,9 @@ namespace ProjectAddressbook
         [Test]
         public void CreateNewGroupTest()
         {
-            SetupChromeDriver();
-            NavigationHelper.GoToURL();
-            LoginHelper.Login(new AccountData("admin", "secret"));
-            TestingGroupHelper.CreateNewGroup(new GroupData("groupname", "groupheader", "gropfooter"));
-            TearDownHelper.TestQuit();
+            app.Navigation.GoToURL();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Groups.CreateNewGroup(new GroupData("groupname", "groupheader", "gropfooter"));
         }
     }
 }

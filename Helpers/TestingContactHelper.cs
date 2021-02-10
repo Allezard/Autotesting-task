@@ -6,7 +6,6 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using ProjectAddressbook.Helpers;
 using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook.Helpers
