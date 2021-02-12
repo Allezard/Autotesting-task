@@ -15,43 +15,27 @@ namespace ProjectAddressbook.Model
             this.gName = gName;
             this.gHeader = gHeader;
             this.gFooter = gFooter;
-
         }
 
         public string GroupName
         {
-            get
-            {
-                return gName;
-            }
-            set
-            {
-                gName = value;
-            }
+            get { return gName; }
+            set { gFooter = value; }
         }
 
         public string GroupHeader
         {
-            get
-            {
-                return gHeader;
-            }
-            set
-            {
-                gHeader = value;
-            }
+            get { return gHeader; }
+            set { gFooter = value; }
         }
 
         public string GroupFooter
         {
-            get
-            {
-                return gFooter;
-            }
-            set
-            {
-                gFooter = value;
-            }
+            get { return gFooter; }
+            set { gFooter = value; }
         }
+
+
+
     }
 }

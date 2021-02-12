@@ -58,7 +58,18 @@ namespace ProjectAddressbook.Helpers
             // Добавляем вторичные личные данные.
             webDriver.FindElement(By.LinkText("home")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
+        }
 
+        public void DeleteFirstContact(int index)
+        {
+            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            // Ищем первый контакт и проставляем в нем чек-бокс.
+            webDriver.FindElement(By.XPath("(//input[@value='Delete'])")).Click();
+            // Ищем кнопку "Delete", нажимаем на нее.
+            webDriver.SwitchTo().Alert().Accept();
+            // Подтверждаем удаление в всплывающем окне.
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Возвращаемся на главную страницу (контакты) не дожидаясь редиректа.
         }
     }
 }

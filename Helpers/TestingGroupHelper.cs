@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook.Helpers
@@ -41,20 +44,45 @@ namespace ProjectAddressbook.Helpers
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
         }
 
+        public void EditGropMethod(By locator, string text)
+        {
+            if (text != null)
+            {
+                webDriver.FindElement(locator).Clear();
+                webDriver.FindElement(locator).SendKeys(text);
+            }
+        }
+
         public void EditSecondGroup(GroupData group, int index)
         {
+            By locatorFooter = By.Name("group_footer");
+            string textFooter = group.GroupFooter;
+
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
             webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             webDriver.FindElement(By.Name("edit")).Click();
             // Выбираем и редактируем вторую группу
-            webDriver.FindElement(By.Name("group_name")).Clear();
-            webDriver.FindElement(By.Name("group_name")).SendKeys(group.GroupName);
-            webDriver.FindElement(By.Name("group_header")).Clear();
-            webDriver.FindElement(By.Name("group_header")).SendKeys(group.GroupHeader);
-            webDriver.FindElement(By.Name("group_footer")).Clear();
-            webDriver.FindElement(By.Name("group_footer")).SendKeys(group.GroupFooter);
+            EditGropMethod(By.Name("group_name"), group.GroupName);
+            EditGropMethod(By.Name("group_header"), group.GroupHeader);
+            webDriver.FindElement(locatorFooter).Clear();
+            webDriver.FindElement(locatorFooter).SendKeys(textFooter);
             // Очищаем и заполняем поля: "Group name", (Logo), (Comment). 
+            webDriver.FindElement(By.Name("update")).Click();
+            // Нажимаем на кнопку "Update".
+            webDriver.FindElement(By.LinkText("group page")).Click();
+            // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
+        }
+
+        public void EditTheThirdGroup(int index)
+        {
+            webDriver.FindElement(By.ClassName("admin")).Click();
+            // Переходим во вкладку "groups".
+            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            webDriver.FindElement(By.Name("edit")).Click();
+            webDriver.FindElement(By.Name("group_parent_id")).Click();
+            new SelectElement(webDriver.FindElement(By.Name("group_parent_id"))).SelectByText("test");
+            // Добавляем группу родителя "Parent group". 
             webDriver.FindElement(By.Name("update")).Click();
             // Нажимаем на кнопку "Update".
             webDriver.FindElement(By.LinkText("group page")).Click();
