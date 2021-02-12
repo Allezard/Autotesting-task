@@ -16,5 +16,14 @@ namespace ProjectAddressbook.Helpers
         {
             this.webDriver = webDriver;
         }
+
+        public void EditGropMethod(By locator, string text)
+        {
+            if (text != null)
+            {
+                webDriver.FindElement(locator).Clear();
+                webDriver.FindElement(locator).SendKeys(text);
+            }
+        }
     }
 }

@@ -44,15 +44,6 @@ namespace ProjectAddressbook.Helpers
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
         }
 
-        public void EditGropMethod(By locator, string text)
-        {
-            if (text != null)
-            {
-                webDriver.FindElement(locator).Clear();
-                webDriver.FindElement(locator).SendKeys(text);
-            }
-        }
-
         public void EditSecondGroup(GroupData group, int index)
         {
             By locatorFooter = By.Name("group_footer");
