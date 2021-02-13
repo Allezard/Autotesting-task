@@ -12,20 +12,12 @@ namespace ProjectAddressbook.Model
 {
     public class BaseClass
     {
-        protected IWebDriver webDriver;
         protected ApplicationManager app;
 
         [SetUp]
         public void SetupChromeDriver()
         {
-            app = new ApplicationManager(webDriver);
-        }
-
-        [TearDown]
-        public void TestQuit()
-        {
-            app.Stop();
-
+            app = SuiteFixture.app;
         }
     }
 }

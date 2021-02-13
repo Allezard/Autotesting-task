@@ -57,11 +57,13 @@ namespace ProjectAddressbook.Helpers
             webDriver.FindElement(By.Name("submit")).Submit();
             // Добавляем вторичные личные данные.
             webDriver.FindElement(By.LinkText("home")).Click();
-            // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
+            // Возвращаемся на главную страницу (контакты) не дожидаясь редиректа.
         }
 
         public void DeleteFirstContact(int index)
         {
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Переходим на главную страницу со списком контактов.
             webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             // Ищем первый контакт и проставляем в нем чек-бокс.
             webDriver.FindElement(By.XPath("(//input[@value='Delete'])")).Click();

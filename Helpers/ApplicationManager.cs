@@ -9,15 +9,15 @@ using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook.Helpers
 {
-    public class ApplicationManager : BaseHelper
+    public class ApplicationManager
     {
+        protected IWebDriver webDriver;
         protected LoginHelper LoginHelper;
         protected NavigationHelper NavigationHelper;
         protected TestingGroupHelper TestingGroupHelper;
         protected TestingContactHelper TestingContactHelper;
 
-        public ApplicationManager(IWebDriver webDriver)
-            : base(webDriver)
+        public ApplicationManager()
         {
             webDriver = new ChromeDriver();
             LoginHelper = new LoginHelper(webDriver);
