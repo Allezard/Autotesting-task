@@ -17,8 +17,8 @@ namespace ProjectAddressbook
         [Test]
         public void DeleteFirstContactTest()
         {
-            //app.Navigation.GoToURL();
-            //app.Auth.Login(new AccountData("admin", "secret"));
+            app.Navigation.GoToURL();
+            app.Auth.Login(new AccountData("admin", "secret"));
             app.Contacts.DeleteFirstContact(1);
         }
     }

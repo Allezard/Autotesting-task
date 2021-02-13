@@ -4,6 +4,7 @@ using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 using NUnit.Framework;
 using ProjectAddressbook.Model;
 
@@ -16,14 +17,24 @@ namespace ProjectAddressbook.Helpers
         protected NavigationHelper NavigationHelper;
         protected TestingGroupHelper TestingGroupHelper;
         protected TestingContactHelper TestingContactHelper;
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
-        public ApplicationManager()
+        private ApplicationManager()
         {
             webDriver = new ChromeDriver();
             LoginHelper = new LoginHelper(webDriver);
             NavigationHelper = new NavigationHelper(webDriver);
             TestingGroupHelper = new TestingGroupHelper(webDriver);
             TestingContactHelper = new TestingContactHelper(webDriver);
+        }
+
+        public static ApplicationManager GetInstance()
+        {
+            if (! app.IsValueCreated)
+            {
+                app.Value = new ApplicationManager();
+            }
+            return app.Value;
         }
 
         public void Stop()
@@ -37,6 +48,18 @@ namespace ProjectAddressbook.Helpers
                 // Ignore errors if unable to close the browser
             }
         }
+
+        //~ApplicationManager()
+        //{
+        //    try
+        //    {
+        //        webDriver.Quit();
+        //    }
+        //    catch (Exception)
+        //    {
+                // Ignore errors if unable to close the browser
+        //    }
+        //}
 
         public LoginHelper Auth
         {

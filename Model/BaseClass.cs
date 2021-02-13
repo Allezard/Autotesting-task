@@ -17,7 +17,7 @@ namespace ProjectAddressbook.Model
         [SetUp]
         public void SetupChromeDriver()
         {
-            app = SuiteFixture.app;
+            app = ApplicationManager.GetInstance();
         }
     }
 }

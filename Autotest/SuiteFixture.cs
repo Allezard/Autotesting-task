@@ -14,12 +14,10 @@ namespace ProjectAddressbook
     [SetUpFixture]
     public class SuiteFixture
     {
-        public static ApplicationManager app;
-
         [OneTimeSetUp]
         public void InitApplicationManager()
         {
-            app = new ApplicationManager();
+            ApplicationManager app = ApplicationManager.GetInstance();
             app.Navigation.GoToURL();
             app.Auth.Login(new AccountData("admin", "secret"));
 
@@ -28,8 +26,7 @@ namespace ProjectAddressbook
         [OneTimeTearDown]
         public void StopApplicationManager()
         {
-            app.Stop();
-
+            ApplicationManager.GetInstance().Stop();
         }
     }
 }

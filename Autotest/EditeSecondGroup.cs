@@ -16,8 +16,8 @@ namespace ProjectAddressbook
         [Test]
         public void EditSecondGroupTest()
         {
-            //app.Navigation.GoToURL();
-            //app.Auth.Login(new AccountData("admin", "secret"));
+            app.Navigation.GoToURL();
+            app.Auth.Login(new AccountData("admin", "secret"));
             app.Groups.EditSecondGroup(new GroupData("editname", "editheader", "editfooter"), 2);
         }
     }
