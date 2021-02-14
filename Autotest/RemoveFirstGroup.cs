@@ -11,7 +11,7 @@ using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook
 {
-    public class RemoveFirstGroup : BaseClass
+    public class RemoveFirstGroup : BaseLogin
     {
         [Test]
         public void RemoveFirstGroupTest()

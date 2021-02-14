@@ -32,7 +32,9 @@ namespace ProjectAddressbook.Helpers
         {
             if (! app.IsValueCreated)
             {
-                app.Value = new ApplicationManager();
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigation.GoToURL();
+                app.Value = newInstance;
             }
             return app.Value;
         }

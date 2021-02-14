@@ -16,12 +16,30 @@ namespace ProjectAddressbook.Helpers
 
         public void Login(AccountData data)
         {
+            if (IsloggedIn())
+            {
+                if (IsloggedIn(data))
+                {
+                    return;
+                }
+        
+                Logout();
+            }
+
             webDriver.FindElement(By.Name("user")).SendKeys(data.Username);
             // Ищем поле "User", вводим в него логин.
             webDriver.FindElement(By.Name("pass")).SendKeys(data.Userpassword);
             // Ищем поле "Password", вводим в него пароль.
             webDriver.FindElement(By.XPath("//input[@value='Login']")).Click();
             // Нажимаем на кнопку "Login".
+        }
+
+        public void Logout()
+        {
+            if (IsloggedIn())
+            {
+                webDriver.FindElement(By.LinkText("Logout")).Click();
+            }    
         }
     }
 }

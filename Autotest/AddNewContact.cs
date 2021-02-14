@@ -12,13 +12,13 @@ using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook
 {
-    public class AddNewContact : BaseClass
+    public class AddNewContact : BaseLogin
     {
         [Test]
         public void AddNewContactTest()
         {
-            //app.Navigation.GoToURL();
-            //app.Auth.Login(new AccountData("admin", "secret"));
+            app.Navigation.GoToURL();
+            app.Auth.Login(new AccountData("admin", "secret"));
             app.Contacts.AddNewContact();
         }
     }

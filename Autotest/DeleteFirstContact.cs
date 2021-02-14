@@ -12,7 +12,7 @@ using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook
 {
-    public class DeleteFirstContact : BaseClass
+    public class DeleteFirstContact : BaseLogin
     {
         [Test]
         public void DeleteFirstContactTest()

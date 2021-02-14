@@ -11,7 +11,7 @@ using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook
 {
-    public class CreateNewGroup : BaseClass
+    public class CreateNewGroup : BaseLogin
     {
         [Test]
         public void CreateNewGroupTest()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,14 +10,11 @@ using ProjectAddressbook.Helpers;
 
 namespace ProjectAddressbook.Model
 {
-    public class BaseClass
+    public class BaseLogin : BaseClass
     {
-        protected ApplicationManager app;
-
-        [SetUp]
-        public void SetupApp()
+        public void SetupLogin()
         {
-            app = ApplicationManager.GetInstance();
+            //app.Auth.Login(new AccountData("admin", "secret"));
         }
     }
 }

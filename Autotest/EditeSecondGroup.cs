@@ -11,7 +11,7 @@ using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook
 {
-    public class EditSecondGroup : BaseClass
+    public class EditSecondGroup : BaseLogin
     {
         [Test]
         public void EditSecondGroupTest()

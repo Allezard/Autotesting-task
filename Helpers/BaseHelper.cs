@@ -25,5 +25,30 @@ namespace ProjectAddressbook.Helpers
                 webDriver.FindElement(locator).SendKeys(text);
             }
         }
+
+        public bool IsElementPresent(By by)
+        {
+            try
+            {
+                webDriver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public bool IsloggedIn(AccountData data)
+        {
+            return IsloggedIn()
+                && webDriver.FindElement(By.Name("Logout")).FindElement(By.TagName("b")).Text
+                    == "(" + data.Username + ")";
+        }
+
+        public bool IsloggedIn()
+        {
+            return IsElementPresent(By.Name("Logout"));
+        }
     }
 }

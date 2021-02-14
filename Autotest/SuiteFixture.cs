@@ -18,9 +18,7 @@ namespace ProjectAddressbook
         public void InitApplicationManager()
         {
             ApplicationManager app = ApplicationManager.GetInstance();
-            app.Navigation.GoToURL();
-            app.Auth.Login(new AccountData("admin", "secret"));
-
+            ApplicationManager.GetInstance().Auth.Login(new AccountData("admin", "secret"));
         }
 
         [OneTimeTearDown]
