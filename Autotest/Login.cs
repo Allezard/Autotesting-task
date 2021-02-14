@@ -17,23 +17,25 @@ namespace ProjectAddressbook
         [Test]
         public void LoginWithValidCredentialsTest()
         {
+            app.Navigation.GoToURL();
             app.Auth.Logout();
 
             AccountData account = new AccountData("admin", "secret");
             app.Auth.Login(account);
 
-            Assert.IsTrue(app.Auth.IsloggedIn(account));
+            Assert.IsTrue(app.Auth.IsloggedInText(account));
         }
 
         [Test]
         public void LoginWithInvalidCredentialsTest()
         {
+            app.Navigation.GoToURL();
             app.Auth.Logout();
 
             AccountData account = new AccountData("admin", "test");
             app.Auth.Login(account);
 
-            Assert.IsFalse(app.Auth.IsloggedIn(account));
+            Assert.IsFalse(app.Auth.IsloggedInText(account));
         }
     }
 }

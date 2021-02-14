@@ -39,7 +39,7 @@ namespace ProjectAddressbook.Helpers
             }
         }
 
-        public bool IsloggedIn(AccountData data)
+        public bool IsloggedInText(AccountData data)
         {
             return IsloggedIn()
                 && webDriver.FindElement(By.Name("Logout")).FindElement(By.TagName("b")).Text

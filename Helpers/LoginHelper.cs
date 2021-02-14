@@ -18,7 +18,7 @@ namespace ProjectAddressbook.Helpers
         {
             if (IsloggedIn())
             {
-                if (IsloggedIn(data))
+                if (IsloggedInText(data))
                 {
                     return;
                 }
