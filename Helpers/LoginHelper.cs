@@ -18,12 +18,13 @@ namespace ProjectAddressbook.Helpers
         {
             if (IsloggedIn())
             {
-                if (IsloggedInText(data))
-                {
-                    return;
-                }
-        
-                Logout();
+                //if (IsloggedInText(data))
+                //{
+                //    return;
+                //}        
+                //Logout();
+
+                return;
             }
 
             webDriver.FindElement(By.Name("user")).SendKeys(data.Username);
@@ -39,7 +40,7 @@ namespace ProjectAddressbook.Helpers
             if (IsloggedIn())
             {
                 webDriver.FindElement(By.LinkText("Logout")).Click();
-            }    
+            }
         }
     }
 }

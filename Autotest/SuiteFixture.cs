@@ -17,7 +17,7 @@ namespace ProjectAddressbook
         [OneTimeSetUp]
         public void InitApplicationManager()
         {
-            ApplicationManager app = ApplicationManager.GetInstance();
+            //ApplicationManager app = ApplicationManager.GetInstance();
             ApplicationManager.GetInstance().Auth.Login(new AccountData("admin", "secret"));
         }
 

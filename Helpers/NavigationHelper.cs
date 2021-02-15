@@ -16,6 +16,11 @@ namespace ProjectAddressbook.Helpers
 
         public void GoToURL()
         {
+            if (IsloggedIn())
+            {
+                return;
+            }
+
             webDriver.Manage().Cookies.DeleteAllCookies();
             webDriver.Manage().Window.Maximize();
             webDriver.Navigate().GoToUrl(BaseHelper.urlLogin);

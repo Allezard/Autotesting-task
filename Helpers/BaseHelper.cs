@@ -26,11 +26,11 @@ namespace ProjectAddressbook.Helpers
             }
         }
 
-        public bool IsElementPresent(By by)
+        public bool CheckElementPresent()
         {
             try
             {
-                webDriver.FindElement(by);
+                webDriver.FindElement(By.LinkText("Logout"));
                 return true;
             }
             catch (NoSuchElementException)
@@ -39,16 +39,16 @@ namespace ProjectAddressbook.Helpers
             }
         }
 
-        public bool IsloggedInText(AccountData data)
-        {
-            return IsloggedIn()
-                && webDriver.FindElement(By.Name("Logout")).FindElement(By.TagName("b")).Text
-                    == "(" + data.Username + ")";
-        }
+        //public bool IsloggedInText(AccountData data)
+        //{
+        //    return IsloggedIn()
+        //        && webDriver.FindElement(By.LinkText("Logout")).FindElement(By.TagName("b")).Text
+        //            == "(" + data.Username + ")";
+        //}
 
         public bool IsloggedIn()
         {
-            return IsElementPresent(By.Name("Logout"));
+            return CheckElementPresent();
         }
     }
 }

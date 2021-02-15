@@ -23,7 +23,7 @@ namespace ProjectAddressbook
             AccountData account = new AccountData("admin", "secret");
             app.Auth.Login(account);
 
-            Assert.IsTrue(app.Auth.IsloggedInText(account));
+            Assert.IsTrue(app.Auth.IsloggedIn());
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace ProjectAddressbook
             AccountData account = new AccountData("admin", "test");
             app.Auth.Login(account);
 
-            Assert.IsFalse(app.Auth.IsloggedInText(account));
+            Assert.IsFalse(app.Auth.IsloggedIn());
         }
     }
 }
