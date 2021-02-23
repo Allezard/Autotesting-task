@@ -12,12 +12,55 @@ namespace ProjectAddressbook.Helpers
 {
     public class TestingGroupHelper : BaseHelper
     {
+        private List<GroupData> groupCache = null;
+
+        public bool Id { get; private set; }
+
         public TestingGroupHelper(IWebDriver webDriver)
             : base(webDriver)
         {
         }
 
-        public void CreateNewGroup(GroupData group)
+        public List<GroupData> GetGroupList()
+        {
+            if (groupCache == null)
+            {                
+                groupCache = new List<GroupData>();
+                NavigationHelper navigation = new NavigationHelper(webDriver);
+                navigation.GoToUrlGroups();
+                ICollection<IWebElement> elements = webDriver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+                    groupCache.Add(new GroupData(null)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                }
+
+                string allGroupNames = webDriver.FindElement(By.CssSelector("div#content form")).Text;
+                string[] parts = allGroupNames.Split("\n");
+                int shift = groupCache.Count - parts.Length;
+                for (int i = 0; i < groupCache.Count; i++)
+                {
+                    if (i < shift)
+                    {
+                        groupCache[i].GroupName = "";
+                    }    
+                    else
+                    {
+                        groupCache[i].GroupName = parts[i - shift].Trim();
+                    }
+                }
+            }
+            return new List<GroupData>(groupCache);
+        }
+
+        public int GetGroupCount()
+        {
+            return webDriver.FindElements(By.CssSelector("span.group")).Count;
+        }
+
+        public TestingGroupHelper CreateNewGroup(GroupData group)
         {
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
@@ -31,27 +74,33 @@ namespace ProjectAddressbook.Helpers
             // Нажимаем на кнопку "Enter information".
             webDriver.FindElement(By.LinkText("group page")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
+
+            groupCache = null;
+            return this;
         }
 
-        public void RemoveFirstGroup(int index)
+        public TestingGroupHelper RemoveFirstGroup(int index)
         {
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
-            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             webDriver.FindElement(By.Name("delete")).Click();
             // Выбираем и удаляем первую группу
             webDriver.FindElement(By.LinkText("group page")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
+
+            groupCache = null;
+            return this;
         }
 
-        public void EditSecondGroup(GroupData group, int index)
+        public TestingGroupHelper EditSecondGroup(GroupData group, int index)
         {
             By locatorFooter = By.Name("group_footer");
             string textFooter = group.GroupFooter;
 
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
-            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             webDriver.FindElement(By.Name("edit")).Click();
             // Выбираем и редактируем вторую группу
             EditGropMethod(By.Name("group_name"), group.GroupName);
@@ -63,13 +112,16 @@ namespace ProjectAddressbook.Helpers
             // Нажимаем на кнопку "Update".
             webDriver.FindElement(By.LinkText("group page")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
+
+            groupCache = null;
+            return this;
         }
 
-        public void EditTheThirdGroup(int index)
+        public TestingGroupHelper EditParent3Group(int index)
         {
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
-            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             webDriver.FindElement(By.Name("edit")).Click();
             webDriver.FindElement(By.Name("group_parent_id")).Click();
             new SelectElement(webDriver.FindElement(By.Name("group_parent_id"))).SelectByText("test");
@@ -78,6 +130,9 @@ namespace ProjectAddressbook.Helpers
             // Нажимаем на кнопку "Update".
             webDriver.FindElement(By.LinkText("group page")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
+
+            groupCache = null;
+            return this;
         }
     }
 }

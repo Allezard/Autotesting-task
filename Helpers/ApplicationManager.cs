@@ -21,7 +21,10 @@ namespace ProjectAddressbook.Helpers
 
         private ApplicationManager()
         {
-            webDriver = new ChromeDriver();
+            ChromeOptions chromeIncognito = new ChromeOptions();
+            chromeIncognito.AddArgument("--incognito");
+
+            webDriver = new ChromeDriver(chromeIncognito);
             LoginHelper = new LoginHelper(webDriver);
             NavigationHelper = new NavigationHelper(webDriver);
             TestingGroupHelper = new TestingGroupHelper(webDriver);
@@ -33,7 +36,7 @@ namespace ProjectAddressbook.Helpers
             if (! app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance.Navigation.GoToURL();
+                newInstance.Navigation.GoToBaseUrl();
                 app.Value = newInstance;
             }
             return app.Value;

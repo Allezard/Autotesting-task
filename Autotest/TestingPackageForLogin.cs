@@ -12,12 +12,12 @@ using ProjectAddressbook.Model;
 
 namespace ProjectAddressbook
 {
-    public class Login : BaseClass
+    public class TestingPackageForLogin : BaseClass
     {
         [Test]
         public void LoginWithValidCredentialsTest()
         {
-            app.Navigation.GoToURL();
+            app.Navigation.GoToBaseUrl();
             app.Auth.Logout();
 
             AccountData account = new AccountData("admin", "secret");
@@ -29,7 +29,7 @@ namespace ProjectAddressbook
         [Test]
         public void LoginWithInvalidCredentialsTest()
         {
-            app.Navigation.GoToURL();
+            app.Navigation.GoToBaseUrl();
             app.Auth.Logout();
 
             AccountData account = new AccountData("admin", "test");

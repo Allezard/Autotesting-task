@@ -14,7 +14,7 @@ namespace ProjectAddressbook.Helpers
         {
         }
 
-        public void GoToURL()
+        public void GoToBaseUrl()
         {
             if (IsloggedIn())
             {
@@ -24,6 +24,16 @@ namespace ProjectAddressbook.Helpers
             webDriver.Manage().Cookies.DeleteAllCookies();
             webDriver.Manage().Window.Maximize();
             webDriver.Navigate().GoToUrl(BaseHelper.urlLogin);
+        }
+
+        public void GoToUrlGroups()
+        {
+            webDriver.Navigate().GoToUrl(BaseHelper.urlGruopList);
+        }
+
+        public void GoToUrContacts()
+        {
+            webDriver.Navigate().GoToUrl(BaseHelper.urlHomePage);
         }
     }
 }

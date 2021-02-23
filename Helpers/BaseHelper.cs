@@ -11,6 +11,8 @@ namespace ProjectAddressbook.Helpers
     {
         protected IWebDriver webDriver;
         protected static string urlLogin = "http://localhost/addressbook/";
+        protected static string urlHomePage = "http://localhost/addressbook/";
+        protected static string urlGruopList = "http://localhost/addressbook/group.php";
 
         public BaseHelper(IWebDriver webDriver)
         {
@@ -39,16 +41,23 @@ namespace ProjectAddressbook.Helpers
             }
         }
 
-        //public bool IsloggedInText(AccountData data)
-        //{
-        //    return IsloggedIn()
-        //        && webDriver.FindElement(By.LinkText("Logout")).FindElement(By.TagName("b")).Text
-        //            == "(" + data.Username + ")";
-        //}
-
         public bool IsloggedIn()
         {
             return CheckElementPresent();
         }
+
+        public string GetLoggedUserName()
+        {
+            string text = webDriver.FindElement(By.Name("Logout")).FindElement(By.TagName("b")).Text;
+            return text.Substring(1, text.Length - 2);
+        }
+
+        public bool IsLoggedInUser(AccountData data)
+        {
+            return IsloggedIn()
+                && GetLoggedUserName() == data.Username;
+        }
+
+
     }
 }
