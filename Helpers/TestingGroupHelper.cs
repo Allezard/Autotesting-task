@@ -31,7 +31,7 @@ namespace ProjectAddressbook.Helpers
                 ICollection<IWebElement> elements = webDriver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
-                    groupCache.Add(new GroupData(null)
+                    groupCache.Add(new GroupData()
                     {
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     });

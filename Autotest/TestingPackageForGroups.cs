@@ -14,6 +14,21 @@ namespace ProjectAddressbook
 {
     public class TestingPackageForGroups : BaseClass
     {
+        public static IEnumerable<GroupData> RandomGroupData()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupData()
+                {
+                    GroupName = GenerateRandomString(30),
+                    GroupHeader = GenerateRandomString(100),
+                    GroupFooter = GenerateRandomString(100)
+                });
+            }
+            return groups;
+        }
+
         [Test]
         public void CreateNewGroupTest()
         {
@@ -21,18 +36,27 @@ namespace ProjectAddressbook
             app.Auth.Login(new AccountData("admin", "secret"));
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
-            Console.Out.WriteLine(app.Groups.GetGroupCount() + "\n");
+            Console.Out.WriteLine("Начальное кол-во групп:  " + app.Groups.GetGroupCount() + "\n");
 
-            GroupData group = new GroupData("Agroupname");
-            group.GroupHeader = "groupheader";
-            group.GroupFooter = "groupfooter";
-            app.Groups.CreateNewGroup(group);
+            GroupData groups = new GroupData
+            {
+                //GroupName = "Agroupname",
+                //GroupHeader = "groupheader",
+                //GroupFooter = "groupfooter"
+
+                GroupName = GenerateRandomString(30),
+                GroupHeader = GenerateRandomString(100),
+                GroupFooter = GenerateRandomString(100)
+            };
+            app.Groups.CreateNewGroup(groups);
+            Console.Out.WriteLine(groups);
 
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            Console.Out.WriteLine(app.Groups.GetGroupCount() + "\n");
-            oldGroups.Add(group);
+            Console.Out.WriteLine("Конечное кол-во групп:  " + app.Groups.GetGroupCount() + "\n");
+
+            oldGroups.Add(groups);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
@@ -44,9 +68,12 @@ namespace ProjectAddressbook
             app.Navigation.GoToBaseUrl();
             app.Auth.Login(new AccountData("admin", "secret"));
 
-            GroupData newData = new GroupData("editname");
-            newData.GroupHeader = "editheader";
-            newData.GroupFooter = "editfooter";
+            GroupData newData = new GroupData
+            {
+                GroupName = "editname",
+                GroupHeader = "editheader",
+                GroupFooter = "editfooter"
+            };
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             Console.Out.WriteLine("Кол-во групп: " + app.Groups.GetGroupCount() + "\n");

@@ -54,6 +54,7 @@ namespace ProjectAddressbook.Helpers
             string lastName = cells[1].Text;
             string firstName = cells[2].Text;
             string address = cells[3].Text;
+            string allEmails = cells[4].Text;
             string allPhones = cells[5].Text;
 
 
@@ -62,8 +63,18 @@ namespace ProjectAddressbook.Helpers
                 LastName = lastName,
                 FirstName = firstName,
                 Address = address,
-                AllPhones = allPhones
+                AllPhones = allPhones,
+                AllEmails = allEmails
             };
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Переходим на главную страницу со списком контактов.
+            string numberOfResult = webDriver.FindElement(By.TagName("label")).Text;
+            Match number = new Regex(@"\d+").Match(numberOfResult);
+            return Int32.Parse(number.Value);
         }
 
         public TestingContactHelper AddNewContact()

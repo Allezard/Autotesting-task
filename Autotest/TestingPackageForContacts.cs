@@ -40,11 +40,22 @@ namespace ProjectAddressbook
             ContactData fromForm = app.Contacts.GetContactInfoFromEditForm();
             ContactData fromTabble = app.Contacts.GetContactInfoFromTable(0);
             Console.Out.WriteLine("Table: " + fromTabble + "\n" + "Form: " + fromForm);
-
             Assert.AreEqual(fromTabble.Address, fromForm.Address);
             Console.Out.WriteLine("\n" + "Table: \n" + fromTabble.Address + "\n\n" + "Form: \n" + fromForm.Address);
+            Assert.AreEqual(fromTabble.AllEmails, fromForm.AllEmails);
+            Console.Out.WriteLine("\n" + "Table: \n" + fromTabble.AllEmails + "\n\n" + "Form: \n" + fromForm.AllEmails);
             Assert.AreEqual(fromTabble.AllPhones, fromForm.AllPhones);
             Console.Out.WriteLine("\n" + "Table: \n" + fromTabble.AllPhones + "\n\n" + "Form: \n" + fromForm.AllPhones);
+        }
+
+        [Test]
+        public void ContactSearchTest()
+        {
+            app.Navigation.GoToBaseUrl();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Contacts.GetNumberOfSearchResults();
+            Console.Out.WriteLine("Number of results: " + app.Contacts.GetNumberOfSearchResults());
+
         }
     }
 }

@@ -8,9 +8,9 @@ namespace ProjectAddressbook.Model
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
 
-        public GroupData(string gName)
+        public GroupData()
         {
-            GroupName = gName;
+
         }
 
         public bool Equals(GroupData other)
@@ -42,7 +42,7 @@ namespace ProjectAddressbook.Model
 
         public override string ToString()
         {
-            return "Group name = " + GroupName;
+            return "Group name:  " + GroupName + "\n\nGroup header:  " + GroupHeader + "\n\nGroup footer:  " + GroupFooter;
         }
 
         public string GroupName { get; set; }

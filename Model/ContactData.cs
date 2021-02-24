@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ProjectAddressbook.Model
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
+        private string allEmails;
 
         public ContactData()
         {
@@ -77,13 +79,32 @@ namespace ProjectAddressbook.Model
             }
         }
 
-        private string CleanIp(string phone)
+        public string AllEmails
         {
-            if (phone == null || phone == "")
+            get
+            {
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                else
+                {
+                    return (CleanIp(Email) + CleanIp(Email2) + CleanIp(Email3)).Trim();
+                }
+            }
+            set
+            {
+                allEmails = value;
+            }
+        }
+
+        private string CleanIp(string symbol)
+        {
+            if (symbol == null || symbol == "")
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-", "").Replace("+", "").Replace("(", "").Replace(")", "") + "\r\n";
+            return Regex.Replace(symbol, "[ -()]", "") + "\r\n";
         }
     }
 }

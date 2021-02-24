@@ -57,7 +57,5 @@ namespace ProjectAddressbook.Helpers
             return IsloggedIn()
                 && GetLoggedUserName() == data.Username;
         }
-
-
     }
 }
