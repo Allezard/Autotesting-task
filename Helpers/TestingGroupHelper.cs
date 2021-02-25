@@ -14,7 +14,7 @@ namespace ProjectAddressbook.Helpers
     {
         private List<GroupData> groupCache = null;
 
-        public bool Id { get; private set; }
+        //public bool Id { get; private set; }
 
         public TestingGroupHelper(IWebDriver webDriver)
             : base(webDriver)
@@ -60,15 +60,15 @@ namespace ProjectAddressbook.Helpers
             return webDriver.FindElements(By.CssSelector("span.group")).Count;
         }
 
-        public TestingGroupHelper CreateNewGroup(GroupData group)
+        public TestingGroupHelper CreateNewGroup(GroupData groups)
         {
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
             webDriver.FindElement(By.Name("new")).Click();
             // Кликаем на кнопку "New group".
-            webDriver.FindElement(By.Name("group_name")).SendKeys(group.GroupName);
-            webDriver.FindElement(By.Name("group_header")).SendKeys(group.GroupHeader);
-            webDriver.FindElement(By.Name("group_footer")).SendKeys(group.GroupFooter);
+            webDriver.FindElement(By.Name("group_name")).SendKeys(groups.GroupName);
+            webDriver.FindElement(By.Name("group_header")).SendKeys(groups.GroupHeader);
+            webDriver.FindElement(By.Name("group_footer")).SendKeys(groups.GroupFooter);
             // Заполняем поля: "Group name", (Logo), (Comment). 
             webDriver.FindElement(By.Name("submit")).Click();
             // Нажимаем на кнопку "Enter information".
@@ -93,18 +93,18 @@ namespace ProjectAddressbook.Helpers
             return this;
         }
 
-        public TestingGroupHelper EditSecondGroup(GroupData group, int index)
+        public TestingGroupHelper EditSecondGroup(GroupData groups, int index)
         {
             By locatorFooter = By.Name("group_footer");
-            string textFooter = group.GroupFooter;
+            string textFooter = groups.GroupFooter;
 
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
             webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             webDriver.FindElement(By.Name("edit")).Click();
             // Выбираем и редактируем вторую группу
-            EditGropMethod(By.Name("group_name"), group.GroupName);
-            EditGropMethod(By.Name("group_header"), group.GroupHeader);
+            EditGropMethod(By.Name("group_name"), groups.GroupName);
+            EditGropMethod(By.Name("group_header"), groups.GroupHeader);
             webDriver.FindElement(locatorFooter).Clear();
             webDriver.FindElement(locatorFooter).SendKeys(textFooter);
             // Очищаем и заполняем поля: "Group name", (Logo), (Comment). 

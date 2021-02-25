@@ -21,15 +21,22 @@ namespace ProjectAddressbook.Model
             app = ApplicationManager.GetInstance();
         }
 
-        public static string GenerateRandomString(int max)
+        public static string GenerateRandomString(int size, bool lowerCase = true)
         {
             Random rnd = new Random();
-            int l = Convert.ToInt32(rnd.NextDouble() * max);
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < l; i++)
+
+            char l;
+
+            for (int i = 0; i < size; i++)
             {
-                builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 223)));
+                l = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * rnd.NextDouble() + 65)));
+                builder.Append(l);
             }
+
+            if (lowerCase)
+                return builder.ToString().ToLower();
+
             return builder.ToString();
         }
     }

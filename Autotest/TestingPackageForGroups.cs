@@ -16,17 +16,17 @@ namespace ProjectAddressbook
     {
         public static IEnumerable<GroupData> RandomGroupData()
         {
-            List<GroupData> groups = new List<GroupData>();
+            List<GroupData> generateData = new List<GroupData>();
             for (int i = 0; i < 5; i++)
             {
-                groups.Add(new GroupData()
+                generateData.Add(new GroupData()
                 {
-                    GroupName = GenerateRandomString(30),
-                    GroupHeader = GenerateRandomString(100),
-                    GroupFooter = GenerateRandomString(100)
+                    GroupName = GenerateRandomString(10),
+                    GroupHeader = GenerateRandomString(30),
+                    GroupFooter = GenerateRandomString(30)
                 });
             }
-            return groups;
+            return generateData;
         }
 
         [Test]
@@ -38,25 +38,21 @@ namespace ProjectAddressbook
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             Console.Out.WriteLine("Начальное кол-во групп:  " + app.Groups.GetGroupCount() + "\n");
 
-            GroupData groups = new GroupData
+            GroupData generateData = new GroupData
             {
-                //GroupName = "Agroupname",
-                //GroupHeader = "groupheader",
-                //GroupFooter = "groupfooter"
-
-                GroupName = GenerateRandomString(30),
-                GroupHeader = GenerateRandomString(100),
-                GroupFooter = GenerateRandomString(100)
+                GroupName = GenerateRandomString(10),
+                GroupHeader = GenerateRandomString(30),
+                GroupFooter = GenerateRandomString(30)
             };
-            app.Groups.CreateNewGroup(groups);
-            Console.Out.WriteLine(groups);
+            app.Groups.CreateNewGroup(generateData);
+            Console.Out.WriteLine(generateData);
 
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
             Console.Out.WriteLine("Конечное кол-во групп:  " + app.Groups.GetGroupCount() + "\n");
 
-            oldGroups.Add(groups);
+            oldGroups.Add(generateData);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
