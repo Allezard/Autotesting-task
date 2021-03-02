@@ -42,7 +42,7 @@ namespace ProjectAddressbook.Model
 
         public override string ToString()
         {
-            return "Group name:  " + GroupName + "\n\nGroup header:  " + GroupHeader + "\n\nGroup footer:  " + GroupFooter;
+            return "Group name:  " + GroupName + "\nGroup header:  " + GroupHeader + "\nGroup footer:  " + GroupFooter;
         }
 
         public string GroupName { get; set; }

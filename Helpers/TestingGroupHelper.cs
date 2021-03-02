@@ -24,7 +24,7 @@ namespace ProjectAddressbook.Helpers
         public List<GroupData> GetGroupList()
         {
             if (groupCache == null)
-            {                
+            {
                 groupCache = new List<GroupData>();
                 NavigationHelper navigation = new NavigationHelper(webDriver);
                 navigation.GoToUrlGroups();
@@ -45,7 +45,7 @@ namespace ProjectAddressbook.Helpers
                     if (i < shift)
                     {
                         groupCache[i].GroupName = "";
-                    }    
+                    }
                     else
                     {
                         groupCache[i].GroupName = parts[i - shift].Trim();
@@ -60,7 +60,7 @@ namespace ProjectAddressbook.Helpers
             return webDriver.FindElements(By.CssSelector("span.group")).Count;
         }
 
-        public TestingGroupHelper CreateNewGroup(GroupData groups)
+        public void CreateNewGroup(GroupData groups)
         {
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
@@ -74,13 +74,13 @@ namespace ProjectAddressbook.Helpers
             // Нажимаем на кнопку "Enter information".
             webDriver.FindElement(By.LinkText("group page")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
-
             groupCache = null;
-            return this;
+            // Очищаем кэш.
         }
 
-        public TestingGroupHelper RemoveFirstGroup(int index)
+        public void RemoveFirstGroup(int index)
         {
+
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
             webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
@@ -88,12 +88,11 @@ namespace ProjectAddressbook.Helpers
             // Выбираем и удаляем первую группу
             webDriver.FindElement(By.LinkText("group page")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
-
             groupCache = null;
-            return this;
+            // Очищаем кэш.
         }
 
-        public TestingGroupHelper EditSecondGroup(GroupData groups, int index)
+        public void EditFirstGroup(GroupData groups, int index)
         {
             By locatorFooter = By.Name("group_footer");
             string textFooter = groups.GroupFooter;
@@ -112,27 +111,36 @@ namespace ProjectAddressbook.Helpers
             // Нажимаем на кнопку "Update".
             webDriver.FindElement(By.LinkText("group page")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
-
             groupCache = null;
-            return this;
+            // Очищаем кэш.
         }
 
-        public TestingGroupHelper EditParent3Group(int index)
+        public void EditParentSecondGroup(int index)
         {
             webDriver.FindElement(By.ClassName("admin")).Click();
             // Переходим во вкладку "groups".
             webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             webDriver.FindElement(By.Name("edit")).Click();
             webDriver.FindElement(By.Name("group_parent_id")).Click();
-            new SelectElement(webDriver.FindElement(By.Name("group_parent_id"))).SelectByText("test");
+            new SelectElement(webDriver.FindElement(By.Name("group_parent_id"))).SelectByText("[none]");
             // Добавляем группу родителя "Parent group". 
             webDriver.FindElement(By.Name("update")).Click();
             // Нажимаем на кнопку "Update".
             webDriver.FindElement(By.LinkText("group page")).Click();
             // Возвращаемся на вкладку /addressbook/group по текстовой ссылке "group page".
-
             groupCache = null;
-            return this;
+            // Очищаем кэш.
+        }
+
+        public void PreAddGroup(GroupData groups, int index)
+        {
+            webDriver.FindElement(By.ClassName("admin")).Click();
+            // Переходим во вкладку "groups".
+            if (IsElementFound(index))
+            {
+                return;
+            }
+            CreateNewGroup(groups);
         }
     }
 }

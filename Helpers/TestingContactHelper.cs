@@ -17,6 +17,9 @@ namespace ProjectAddressbook.Helpers
         public TestingContactHelper(IWebDriver webDriver)
             : base(webDriver)
         {
+            //*[@id="maintable"]/tbody/tr[2]
+            //*[@id="maintable"]/tbody/tr[3]
+            //div#content table tbody tr
         }
 
         public List<ContactData> GetContactList()
@@ -26,7 +29,7 @@ namespace ProjectAddressbook.Helpers
                 contactCache = new List<ContactData>();
                 NavigationHelper navigation = new NavigationHelper(webDriver);
                 navigation.GoToUrContacts();
-                ICollection<IWebElement> elements = webDriver.FindElements(By.TagName("tr.entry"));
+                ICollection<IWebElement> elements = webDriver.FindElements(By.Name("entry"));
                 foreach (IWebElement element in elements)
                 {
                     contactCache.Add(new ContactData()
@@ -35,7 +38,7 @@ namespace ProjectAddressbook.Helpers
                     });
                 }
 
-                string allContacntNames = webDriver.FindElement(By.CssSelector("div#content form")).Text;
+                string allContacntNames = webDriver.FindElement(By.CssSelector("div#content table")).Text;
                 string[] parts = allContacntNames.Split("\n");
                 int shift = contactCache.Count - parts.Length;
                 for (int i = 0; i < contactCache.Count; i++)
@@ -55,17 +58,25 @@ namespace ProjectAddressbook.Helpers
 
         public int GetContactCount()
         {
-            return webDriver.FindElements(By.TagName("tr.entry")).Count;
+            return webDriver.FindElements(By.Name("entry")).Count;
         }
 
-        public ContactData GetContactInfoFromEditForm()
+        public ContactData GetContactInfoFromEditForm(int index)
         {
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Переходим на главную страницу со списком контактов.
+            webDriver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
+            // Переходим в редактирование выбранного контакта.
+
             string firstName = webDriver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = webDriver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = webDriver.FindElement(By.Name("address")).GetAttribute("value");
             string homePhone = webDriver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = webDriver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = webDriver.FindElement(By.Name("work")).GetAttribute("value");
+            string homeAddress = webDriver.FindElement(By.Name("phone2")).GetAttribute("value");
             string email = webDriver.FindElement(By.Name("email")).GetAttribute("value");
             string email2 = webDriver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = webDriver.FindElement(By.Name("email3")).GetAttribute("value");
@@ -78,6 +89,7 @@ namespace ProjectAddressbook.Helpers
                 HomePhone = homePhone,
                 MobilePhone = mobilePhone,
                 WorkPhone = workPhone,
+                HomeAddress = homeAddress,
                 Email = email,
                 Email2 = email2,
                 Email3 = email3
@@ -86,8 +98,8 @@ namespace ProjectAddressbook.Helpers
 
         public ContactData GetContactInfoFromTable(int index)
         {
-            NavigationHelper navigation = new NavigationHelper(webDriver);
-            navigation.GoToUrContacts();
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Переходим на главную страницу со списком контактов.
 
             IList<IWebElement> cells = webDriver.FindElements(By.Name("entry"))[index]
                 .FindElements(By.TagName("td"));
@@ -109,33 +121,95 @@ namespace ProjectAddressbook.Helpers
             };
         }
 
-        public int GetNumberOfSearchResults()
+        public ContactData GetContactDetailsFromEditForm(int index)
         {
             webDriver.FindElement(By.LinkText("home")).Click();
             // Переходим на главную страницу со списком контактов.
-            string numberOfResult = webDriver.FindElement(By.TagName("label")).Text;
-            Match number = new Regex(@"\d+").Match(numberOfResult);
-            return Int32.Parse(number.Value);
+            webDriver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
+            // Переходим в редактирование выбранного контакта.
+
+            string firstName = webDriver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string middlename = webDriver.FindElement(By.Name("middlename")).GetAttribute("value");
+            string lastName = webDriver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string nickname = webDriver.FindElement(By.Name("nickname")).GetAttribute("value");
+            string title = webDriver.FindElement(By.Name("title")).GetAttribute("value");
+            string company = webDriver.FindElement(By.Name("company")).GetAttribute("value");
+            string address = webDriver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = webDriver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = webDriver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = webDriver.FindElement(By.Name("work")).GetAttribute("value");
+            string fax = webDriver.FindElement(By.Name("fax")).GetAttribute("value");
+            string email = webDriver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = webDriver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = webDriver.FindElement(By.Name("email3")).GetAttribute("value");
+            string homepage = webDriver.FindElement(By.Name("homepage")).GetAttribute("value");
+            string secondaryAddress = webDriver.FindElement(By.Name("address2")).GetAttribute("value");
+            string homeAddress = webDriver.FindElement(By.Name("phone2")).GetAttribute("value");
+            string notes = webDriver.FindElement(By.Name("notes")).GetAttribute("value");
+
+            return new ContactData()
+            {
+                FirstName = firstName,
+                MiddleName = middlename,
+                LastName = lastName,
+                NickName = nickname,
+                Title = title,
+                Company = company,
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Fax = fax,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
+                Homepage = homepage,
+                SecondaryAddress = secondaryAddress,
+                HomeAddress = homeAddress,
+                Notes = notes
+            };
         }
 
-        public TestingContactHelper AddNewContact()
+        public ContactData GetContactDetailsFormTable(int index)
+        {
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Переходим на главную страницу со списком контактов.
+            webDriver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
+            // Переходим в редактирование выбранного контакта.
+
+            IList<IWebElement> cells = webDriver.FindElements(By.Id("content"));
+
+            string allDetails = cells[0].Text;
+
+            return new ContactData()
+            {
+                AllDetails = allDetails
+            };
+        }
+
+        public void AddNewContact(ContactData contact)
         {
             webDriver.FindElement(By.LinkText("add new")).Click();
-            webDriver.FindElement(By.Name("firstname")).SendKeys("first");
-            webDriver.FindElement(By.Name("middlename")).SendKeys("middle");
-            webDriver.FindElement(By.Name("lastname")).SendKeys("last");
-            webDriver.FindElement(By.Name("nickname")).SendKeys("nick");
-            webDriver.FindElement(By.Name("company")).SendKeys("company");
-            webDriver.FindElement(By.Name("title")).SendKeys("title");
-            webDriver.FindElement(By.Name("address")).SendKeys("address");
-            webDriver.FindElement(By.Name("home")).SendKeys("home");
-            webDriver.FindElement(By.Name("mobile")).SendKeys("mobile");
-            webDriver.FindElement(By.Name("work")).SendKeys("work");
-            webDriver.FindElement(By.Name("fax")).SendKeys("fax");
-            webDriver.FindElement(By.Name("email")).SendKeys("email1");
-            webDriver.FindElement(By.Name("email2")).SendKeys("email2");
-            webDriver.FindElement(By.Name("email3")).SendKeys("email3");
-            webDriver.FindElement(By.Name("homepage")).SendKeys("homepage");
+            // Переходим на страницу для создания контакта.
+            webDriver.FindElement(By.Name("email")).SendKeys(contact.Email);
+            webDriver.FindElement(By.Name("email2")).SendKeys(contact.Email2);
+            webDriver.FindElement(By.Name("email3")).SendKeys(contact.Email3);
+            webDriver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
+            webDriver.FindElement(By.Name("middlename")).SendKeys(contact.MiddleName);
+            webDriver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
+            webDriver.FindElement(By.Name("nickname")).SendKeys(contact.NickName);
+            webDriver.FindElement(By.Name("company")).SendKeys(contact.Company);
+            webDriver.FindElement(By.Name("title")).SendKeys(contact.Title);
+            webDriver.FindElement(By.Name("address")).SendKeys(contact.Address);
+            webDriver.FindElement(By.Name("home")).SendKeys(contact.HomePhone);
+            webDriver.FindElement(By.Name("mobile")).SendKeys(contact.MobilePhone);
+            webDriver.FindElement(By.Name("work")).SendKeys(contact.WorkPhone);
+            webDriver.FindElement(By.Name("fax")).SendKeys(contact.Fax);
+            webDriver.FindElement(By.Name("homepage")).SendKeys(contact.Homepage);
             // Заполняем личные данные.
             webDriver.FindElement(By.Name("bday")).Click();
             new SelectElement(webDriver.FindElement(By.Name("bday"))).SelectByText("16");
@@ -150,27 +224,27 @@ namespace ProjectAddressbook.Helpers
             webDriver.FindElement(By.Name("ayear")).SendKeys("2020");
             // Указываем день, месяц, год годовщины.
             webDriver.FindElement(By.Name("new_group")).Click();
-            new SelectElement(webDriver.FindElement(By.Name("new_group"))).SelectByText("test");
+            new SelectElement(webDriver.FindElement(By.Name("new_group"))).SelectByText("[none]");
             // Выбираем ранее созданную группу.
-            webDriver.FindElement(By.Name("address2")).SendKeys("address2");
-            webDriver.FindElement(By.Name("phone2")).SendKeys("");
-            webDriver.FindElement(By.Name("notes")).SendKeys("notes");
+            webDriver.FindElement(By.Name("address2")).SendKeys(contact.SecondaryAddress);
+            webDriver.FindElement(By.Name("phone2")).SendKeys(contact.HomeAddress);
+            webDriver.FindElement(By.Name("notes")).SendKeys(contact.Notes);
             webDriver.FindElement(By.Name("submit")).Submit();
             // Добавляем вторичные личные данные.
             webDriver.FindElement(By.LinkText("home")).Click();
             // Возвращаемся на главную страницу (контакты) не дожидаясь редиректа.
-
             contactCache = null;
-            return this;
+            // Очищаем кэш.
         }
 
-        public TestingContactHelper EditFirstContact(ContactData contact, int index)
+        public void EditFirstContact(ContactData contact, int index)
         {
             webDriver.FindElement(By.LinkText("home")).Click();
             // Переходим на главную страницу со списком контактов.
+            // Делаем проверку на наличии контакта, если его нет, то создаем и повторяем тест.
             webDriver.FindElements(By.Name("entry"))[index]
-                .FindElements(By.TagName("td"))[7]
-                .FindElement(By.TagName("a")).Click();
+                    .FindElements(By.TagName("td"))[7]
+                    .FindElement(By.TagName("a")).Click();
             // Переходим в редактирование выбранного контакта.
             webDriver.FindElement(By.Name("firstname")).Clear();
             webDriver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
@@ -225,13 +299,13 @@ namespace ProjectAddressbook.Helpers
             // Добавляем вторичные личные данные.
             webDriver.FindElement(By.LinkText("home")).Click();
             // Возвращаемся на главную страницу (контакты) не дожидаясь редиректа.
-
             contactCache = null;
-            return this;
+            // Очищаем кэш.
         }
 
-        public TestingContactHelper DeleteFirstContact(int index)
+        public void DeleteFirstContact(int index)
         {
+            // Делаем проверку на наличии контакта, если его нет, то создаем и повторяем тест.
             webDriver.FindElement(By.LinkText("home")).Click();
             // Переходим на главную страницу со списком контактов.
             webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
@@ -242,22 +316,50 @@ namespace ProjectAddressbook.Helpers
             // Подтверждаем удаление в всплывающем окне.
             webDriver.FindElement(By.LinkText("home")).Click();
             // Возвращаемся на главную страницу (контакты) не дожидаясь редиректа.
-
             contactCache = null;
-            return this;
+            // Очищаем кэш.
         }
 
-        public TestingContactHelper CheckContactInfo(int index)
+        public void AddContactInGroup(int index)
         {
             webDriver.FindElement(By.LinkText("home")).Click();
             // Переходим на главную страницу со списком контактов.
-            webDriver.FindElements(By.Name("entry"))[index]
-                .FindElements(By.TagName("td"))[7]
-                .FindElement(By.TagName("a")).Click();
-            // Переходим в редактирование выбранного контакта.
+            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
+            // Выбираем первый контакт.
+            webDriver.FindElement(By.CssSelector("div.right input")).Click();
+            // Добавляем контакт в случайную группу.
+            webDriver.FindElement(By.CssSelector("div.msgbox a")).Click();
+            // Переходим в раздел "contacts" (выставлен фильтр группы, которую мы присвоили).
+            webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
+            // Выбираем первый контакт.
+            webDriver.FindElement(By.Name("remove")).Click();
+            // Выбираем первый контакт.
+            webDriver.FindElement(By.CssSelector("div.msgbox a")).Click();
+            // Переходим в раздел "contacts" (выставлен фильтр группы, которую мы удалили).
+            webDriver.FindElement(By.CssSelector("form#right")).Click();
+            // Кликаем по селектору со списком групп.
+            webDriver.FindElement(By.XPath("/html/body/div/div[4]/form[1]/select/option[2]")).Click();
+            // Возвращаем видимость всех контактов. 
+        }
 
-            contactCache = null;
-            return this;
+        public int GetNumberOfSearchResults()
+        {
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Переходим на главную страницу со списком контактов.
+            string numberOfResult = webDriver.FindElement(By.TagName("label")).Text;
+            Match number = new Regex(@"\d+").Match(numberOfResult);
+            return Int32.Parse(number.Value);
+        }
+
+        public void PreAddContact(ContactData contact, int index)
+        {
+            webDriver.FindElement(By.LinkText("home")).Click();
+            // Переходим на главную страницу со списком контактов.
+            if (IsElementFound(index))
+            {
+                return;
+            }
+            AddNewContact(contact);
         }
     }
 }

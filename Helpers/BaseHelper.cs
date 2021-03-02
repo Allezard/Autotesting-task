@@ -28,7 +28,7 @@ namespace ProjectAddressbook.Helpers
             }
         }
 
-        public bool CheckElementPresent()
+        public bool CheckLoginPresent()
         {
             try
             {
@@ -43,7 +43,7 @@ namespace ProjectAddressbook.Helpers
 
         public bool IsloggedIn()
         {
-            return CheckElementPresent();
+            return CheckLoginPresent();
         }
 
         public string GetLoggedUserName()
@@ -56,6 +56,24 @@ namespace ProjectAddressbook.Helpers
         {
             return IsloggedIn()
                 && GetLoggedUserName() == data.Username;
+        }
+
+        public bool CheckElementPresent(int index)
+        {
+            try
+            {
+                webDriver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]"));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        public bool IsElementFound(int index)
+        {
+            return CheckElementPresent(index);
         }
     }
 }

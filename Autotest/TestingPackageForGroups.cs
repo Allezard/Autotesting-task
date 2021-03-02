@@ -37,6 +37,7 @@ namespace ProjectAddressbook
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             Console.Out.WriteLine("Начальное кол-во групп:  " + app.Groups.GetGroupCount() + "\n");
+            // Записываем старые знаечения групп.
 
             GroupData generateData = new GroupData
             {
@@ -46,11 +47,13 @@ namespace ProjectAddressbook
             };
             app.Groups.CreateNewGroup(generateData);
             Console.Out.WriteLine(generateData);
+            // Создаем новую группу.
 
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
             Console.Out.WriteLine("Конечное кол-во групп:  " + app.Groups.GetGroupCount() + "\n");
+            // Записываем новые знаечения групп.
 
             oldGroups.Add(generateData);
             oldGroups.Sort();
@@ -59,30 +62,31 @@ namespace ProjectAddressbook
         }
 
         [Test]
-        public void EditSecondGroupTest()
+        public void EditFirstGroupTest()
         {
             app.Navigation.GoToBaseUrl();
             app.Auth.Login(new AccountData("admin", "secret"));
 
-            GroupData newData = new GroupData
+            GroupData generateData = new GroupData
             {
-                GroupName = "editname",
-                GroupHeader = "editheader",
-                GroupFooter = "editfooter"
+                GroupName = GenerateRandomString(10),
+                GroupHeader = GenerateRandomString(30),
+                GroupFooter = GenerateRandomString(30)
             };
+            app.Groups.PreAddGroup(generateData, 0);
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             Console.Out.WriteLine("Кол-во групп: " + app.Groups.GetGroupCount() + "\n");
-            GroupData oldData = oldGroups[1];
-            Console.Out.WriteLine("Было: " + oldData + " (ID: " + oldData.Id + ")" + "\n");
+            GroupData oldData = oldGroups[0];
+            Console.Out.WriteLine("ID Группы: " + oldData.Id + "\n" + "Было:\n" + oldData + "\n");
 
-            app.Groups.EditSecondGroup(newData, 1);
+            app.Groups.EditFirstGroup(generateData, 0);
 
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
-            Console.Out.WriteLine("Стало: " + newData + " (ID: " + oldData.Id + ")" + "\n");
+            Console.Out.WriteLine("ID Группы: " + oldData.Id + "\n" + "Стало:\n" + generateData + "\n");
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            oldGroups[1].GroupName = newData.GroupName;
+            oldGroups[0].GroupName = generateData.GroupName;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
@@ -91,17 +95,17 @@ namespace ProjectAddressbook
             {
                 if (group.Id == oldData.Id)
                 {
-                    Assert.AreEqual(newData.GroupName, group.GroupName);
+                    Assert.AreEqual(generateData.GroupName, group.GroupName);
                 }
             }
         }
 
         [Test]
-        public void EditParent3GroupTest()
+        public void EditParentSecondGroupTest()
         {
             app.Navigation.GoToBaseUrl();
             app.Auth.Login(new AccountData("admin", "secret"));
-            app.Groups.EditParent3Group(2);
+            app.Groups.EditParentSecondGroup(1);
         }
 
         [Test]
@@ -109,13 +113,20 @@ namespace ProjectAddressbook
         {
             app.Navigation.GoToBaseUrl();
             app.Auth.Login(new AccountData("admin", "secret"));
+            GroupData generateData = new GroupData
+            {
+                GroupName = GenerateRandomString(10),
+                GroupHeader = GenerateRandomString(30),
+                GroupFooter = GenerateRandomString(30)
+            };
+            app.Groups.PreAddGroup(generateData, 0);
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             Console.Out.WriteLine("Изначальное кол-во групп: " + app.Groups.GetGroupCount() + "\n");
             GroupData oldValue = oldGroups[0];
 
             app.Groups.RemoveFirstGroup(0);
-
+            
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
             List<GroupData> newGroups = app.Groups.GetGroupList();
             Console.Out.WriteLine("Кол-во групп после удаления: " + app.Groups.GetGroupCount() + " (ID удаленной группы: " + oldValue.Id + ")" + "\n" + "\n");

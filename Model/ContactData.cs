@@ -10,6 +10,7 @@ namespace ProjectAddressbook.Model
     {
         private string allPhones;
         private string allEmails;
+        private string allDetails;
 
         public ContactData()
         {
@@ -42,12 +43,30 @@ namespace ProjectAddressbook.Model
 
         public override int GetHashCode()
         {
-            return (FirstName + " " + LastName).GetHashCode();
+            return (FirstName, LastName).GetHashCode();
         }
 
         public override string ToString()
         {
-            return "Имя и Фамилия:\n" + FirstName + "\n" + LastName;
+            return
+                "\nFirst name:  " + FirstName +
+                "\nMiddle name:  " + MiddleName +
+                "\nLast name:  " + LastName +
+                "\nNickName:  " + NickName +
+                "\nCompany:  " + Company +
+                "\nTitle:  " + Title +
+                "\nAddress:  " + Address +
+                "\nHomePhone:  " + HomePhone +
+                "\nMobilePhone:  " + MobilePhone +
+                "\nWorkPhone:  " + WorkPhone +
+                "\nFax:  " + Fax +
+                "\nEmail:  " + Email +
+                "\nEmail2:  " + Email2 +
+                "\nEmail3:  " + Email3 +
+                "\nHomepage:  " + Homepage +
+                "\nSecondaryAddress:  " + SecondaryAddress +
+                "\nHomeAddress:  " + HomeAddress +
+                "\nNotes:  " + Notes + "\n\n";
         }
 
         public string FirstName { get; set; }
@@ -79,7 +98,7 @@ namespace ProjectAddressbook.Model
                 }
                 else
                 {
-                    return (CleanIp(HomePhone) + CleanIp(MobilePhone) + CleanIp(WorkPhone)).Trim();
+                    return CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone) + CleanUp(HomeAddress).Trim();
                 }
             }
             set
@@ -98,7 +117,7 @@ namespace ProjectAddressbook.Model
                 }
                 else
                 {
-                    return (CleanIp(Email) + CleanIp(Email2) + CleanIp(Email3)).Trim();
+                    return CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3).Trim();
                 }
             }
             set
@@ -107,7 +126,52 @@ namespace ProjectAddressbook.Model
             }
         }
 
-        private string CleanIp(string symbol)
+        public string AllDetails
+        {
+            get
+            {
+                if (allDetails != null)
+                {
+                    return allDetails;
+                }
+                else
+                {
+                    return
+                        FirstName + " " + MiddleName + " " + CleanUp(LastName) + 
+                        NickName + "\r\n" +
+                        Title + "\r\n" +
+                        Company + "\r\n" +
+                        Address + "\r\n" +
+                        "\r\n" +
+                        "H: " + HomePhone + "\r\n" +
+                        "M: " + MobilePhone + "\r\n" +
+                        "W: " + WorkPhone + "\r\n" +
+                        "F: " + Fax + "\r\n" +
+                        "\r\n" +
+                        Email + " (www." + Email.Substring(1) + ")" + "\r\n" +
+                        Email2 + " (www." + Email2.Substring(1) + ")" + "\r\n" +
+                        Email3 + " (www." + Email3.Substring(1) + ")" + "\r\n" +
+                        "Homepage:" + "\r\n" +
+                        Homepage + "\r\n" +
+                        "\r\n" +
+                        "Birthday 16. April 1994 (26)" +
+                        "\r\n" +
+                        "Anniversary 20. March 2020 (0)" + "\r\n" +
+                        "\r\n" +
+                        SecondaryAddress + "\r\n" +
+                        "\r\n" +
+                        "P: " + HomeAddress + "\r\n" +
+                        "\r\n" +
+                        Notes;
+                }
+            }
+            set
+            {
+                allDetails = value;
+            }
+        }
+
+        private string CleanUp(string symbol)
         {
             if (symbol == null || symbol == "")
             {
